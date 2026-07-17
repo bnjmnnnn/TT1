@@ -25,6 +25,12 @@ TEST_YEAR = 2023  # hold-out temporal: ultimo anio disponible
 # define sobre el stock regionalizado (suma de las 16 regiones).
 UNKNOWN_REGION_CODE = 17
 
+# --- Horizonte de prediccion ---
+# 2024-2026 se predicen de forma recursiva (encadenando rezagos predichos).
+# 2027-2028 quedan pendientes como trabajo futuro (el error acumulado de
+# la recursion crece con cada paso y debe evaluarse antes de extenderlo).
+FORECAST_END = 2026
+
 # --- Criterios (reunion con el profesor) ---
 VIF_THRESHOLD = 10
 R2_SUCCESS_THRESHOLD = 0.60
