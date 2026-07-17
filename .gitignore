@@ -1,2 +1,13 @@
-
+# Datos crudos pesados (no versionables)
 personas_censo2024.csv
+
+# Python
+__pycache__/
+*.pyc
+
+# Entornos virtuales
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
