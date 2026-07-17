@@ -15,9 +15,11 @@ DATASET_REGION = PROCESSED_DIR / "dataset_region.csv"
 SEED = 42
 
 # --- Protocolo temporal (Fase 4.1) ---
-# Filtro del profesor: solo anios >= 2020. El anio 2020 se usa unicamente
-# como fuente del rezago (lag), por lo que el panel modelable es 2021-2023.
-PANEL_START = 2020
+# Se alimenta el modelo con toda la historia disponible del SERMIG
+# (2018-2023): XGBoost duplica su R2 de test y las predicciones casi no
+# cambian (ver docs/comparacion_filtro_temporal.md). El primer anio se usa
+# unicamente como fuente del rezago (lag) -> panel modelable 2019-2023.
+PANEL_START = 2018
 TEST_YEAR = 2023  # hold-out temporal: ultimo anio disponible
 
 # Region 17 = "REGION IGNORADA": no es una unidad territorial predecible
