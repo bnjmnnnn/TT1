@@ -1,0 +1,22 @@
+{
+  "features": [
+    "rate_lag1",
+    "pct_women_lag1",
+    "mean_age_lag1",
+    "pct_irregular_lag1",
+    "pct_venezuela_lag1",
+    "sol_share_lag1",
+    "sol_pct_otorga_lag1",
+    "macro_desempleo_origen_lag1"
+  ],
+  "cv": "KFold(5)",
+  "seed": 42,
+  "mejores_params": {
+    "random_forest_v2": {
+      "max_depth": 4,
+      "max_features": 1.0,
+      "min_samples_leaf": 2,
+      "n_estimators": 200
+    }
+  }
+}
