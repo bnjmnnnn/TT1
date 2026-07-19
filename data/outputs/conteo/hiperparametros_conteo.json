@@ -1,0 +1,31 @@
+{
+  "target": "estimation",
+  "features": [
+    "estimation_lag1",
+    "pct_women_lag1",
+    "mean_age_lag1",
+    "pct_irregular_lag1",
+    "pct_venezuela_lag1",
+    "sol_share_lag1",
+    "sol_pct_otorga_lag1",
+    "macro_desempleo_origen_lag1"
+  ],
+  "cv": "KFold(5)",
+  "seed": 42,
+  "mejores_params": {
+    "regresion_lineal_conteo": {},
+    "random_forest_conteo": {
+      "max_depth": 4,
+      "max_features": 1.0,
+      "min_samples_leaf": 2,
+      "n_estimators": 200
+    },
+    "gradient_boosting_conteo": {
+      "learning_rate": 0.05,
+      "max_depth": 3,
+      "min_samples_leaf": 2,
+      "n_estimators": 200,
+      "subsample": 1.0
+    }
+  }
+}
