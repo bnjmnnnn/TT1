@@ -9,11 +9,11 @@
     "reg_lambda": 4.475723100198165,
     "subsample": 0.8990875095589655
   },
-  "n_arboles_early_stopping": 122,
-  "umbral": 0.644,
-  "scale_pos_weight": 9.752,
+  "n_arboles_early_stopping": 195,
+  "umbral": 0.695,
+  "scale_pos_weight": 10.171,
   "seed": 42,
-  "f1_test": 0.6190741773563859,
-  "auc_roc_test": 0.9253879148381059,
-  "auc_pr_test": 0.7061239481484374
+  "f1_test": 0.6302521008403361,
+  "auc_roc_test": 0.8951680019791036,
+  "auc_pr_test": 0.6799135979932774
 }

@@ -1,8 +1,10 @@
 """Modelos basicos sobre dataset_combinado_enriquecido.
 
   Target: TIPO_MIGRACION = 1 si la tasa de irregularidad del grupo > 0.5
-  Se evalua sobre test separado y se excluyen filas con RRAA_TOTAL == 0
-  (sin registros no hay tasa que clasificar).
+  Split temporal (train < 2023, test = 2023), NUNCA aleatorio -- ver
+  split_temporal() para el motivo (evitar fuga entre anios de la misma
+  celda demografica). Se excluyen filas con RRAA_TOTAL == 0 (sin registros
+  no hay tasa que clasificar).
 
 Uso:  python modelos_basicos.py  ->  resultados_modelos.csv
 """
@@ -12,7 +14,6 @@ import pandas as pd
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
-from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
@@ -20,6 +21,7 @@ from limpiar_datos import limpiar_datos
 
 AQUI = Path(__file__).resolve().parent
 SEED = 42
+TEST_YEAR = 2023  # holdout temporal, mismo protocolo que src/train_v2.py
 
 FEATURES_BASE = ["SEXO", "EDAD_NUMERICA", "PAIS_CODIGO", "AÑO", "CODREGEO",
                  "CENSO AJUSTADO", "INFLACION", "CRECIMIENTO_PIB", "DESEMPLEO"]
@@ -54,16 +56,30 @@ def preparar():
     return df
 
 
+def split_temporal(df, cols):
+    """Split temporal (train < TEST_YEAR, test = TEST_YEAR), NUNCA aleatorio.
+
+    Un split aleatorio por fila deja la misma celda demografica (sexo x edad
+    x pais x region) repartida entre train y test en anios distintos -- esas
+    celdas son casi identicas en features y target (la tasa de irregularidad
+    de un grupo persiste de un anio a otro, igual que el share regional en
+    v2/conteo), asi que el modelo podia acertar por memorizar la celda en
+    vez de generalizar. Con split temporal, 2023 completo queda fuera del
+    entrenamiento.
+    """
+    train = df[df["AÑO"] < TEST_YEAR]
+    test = df[df["AÑO"] == TEST_YEAR]
+    return (train[cols], test[cols],
+            train["TIPO_MIGRACION"], test["TIPO_MIGRACION"])
+
+
 def main():
     df = preparar()
-    y = df["TIPO_MIGRACION"]
 
     resultados = []
     for set_nombre, cols in (("base", FEATURES_BASE),
                              ("base + censo", FEATURES_BASE + FEATURES_CENSO)):
-        X = df[cols]
-        X_tr, X_te, y_tr, y_te = train_test_split(
-            X, y, test_size=0.2, random_state=SEED, stratify=y)
+        X_tr, X_te, y_tr, y_te = split_temporal(df, cols)
         for nombre, modelo in MODELOS.items():
             modelo.fit(X_tr, y_tr)
             pred = modelo.predict(X_te)

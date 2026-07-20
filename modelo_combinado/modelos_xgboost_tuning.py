@@ -24,7 +24,7 @@ from sklearn.model_selection import (RandomizedSearchCV, StratifiedKFold,
                                      train_test_split)
 from xgboost import XGBClassifier
 
-from modelos_basicos import FEATURES_BASE, FEATURES_CENSO, preparar
+from modelos_basicos import FEATURES_BASE, FEATURES_CENSO, preparar, split_temporal
 from modelos_mejorados import umbral_optimo
 
 AQUI = Path(__file__).resolve().parent
@@ -71,12 +71,11 @@ def fit_con_early_stopping(params, X_fit, y_fit, X_val, y_val, scale_pos_weight)
 
 def main():
     df = preparar()
-    y = df["TIPO_MIGRACION"]
     cols = FEATURES_BASE + FEATURES_CENSO
-    X = df[cols]
 
-    X_tr, X_te, y_tr, y_te = train_test_split(
-        X, y, test_size=0.2, random_state=SEED, stratify=y)
+    X_tr, X_te, y_tr, y_te = split_temporal(df, cols)
+    # fit/val: split aleatorio, pero SOLO dentro de los anios de train
+    # (< 2023) -- no toca el holdout, solo calibra el umbral y hace early stop.
     X_fit, X_val, y_fit, y_val = train_test_split(
         X_tr, y_tr, test_size=0.25, random_state=SEED, stratify=y_tr)
     scale_pos_weight = (y_fit == 0).sum() / (y_fit == 1).sum()

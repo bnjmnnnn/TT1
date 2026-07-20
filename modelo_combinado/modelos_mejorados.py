@@ -19,7 +19,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from xgboost import XGBClassifier
 
-from modelos_basicos import FEATURES_BASE, FEATURES_CENSO, preparar
+from modelos_basicos import FEATURES_BASE, FEATURES_CENSO, preparar, split_temporal
 
 AQUI = Path(__file__).resolve().parent
 SEED = 42
@@ -68,14 +68,13 @@ def evaluar_cv(nombre, construir, X, y):
 
 def main():
     df = preparar()
-    y = df["TIPO_MIGRACION"]
 
     resultados = []
     for set_nombre, cols in (("base", FEATURES_BASE),
                              ("base + censo", FEATURES_BASE + FEATURES_CENSO)):
-        X = df[cols]
-        X_tr, X_te, y_tr, y_te = train_test_split(
-            X, y, test_size=0.2, random_state=SEED, stratify=y)
+        X_tr, X_te, y_tr, y_te = split_temporal(df, cols)
+        # fit/val: split aleatorio, pero SOLO dentro de los anios de train
+        # (< 2023) -- no toca el holdout, solo calibra el umbral.
         X_fit, X_val, y_fit, y_val = train_test_split(
             X_tr, y_tr, test_size=0.25, random_state=SEED, stratify=y_tr)
 

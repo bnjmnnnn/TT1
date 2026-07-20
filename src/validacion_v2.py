@@ -1,8 +1,13 @@
 """Test de permutacion para el modelo nucleo v2 (train_v2.py) — la misma
 prueba que ya se le aplico al modelo 1 original (5 features, ver
-docs/decisiones_modelo_regional.md, seccion 4, hallazgo 2), nunca aplicada
-al modelo v2 de 8 features pese a tener R2 igual de sospechoso
-(Lineal 0.9999, GB 0.9995, N_train=32).
+docs/decisiones_modelo_regional.md, seccion 4, hallazgo 2).
+
+Valida random_forest_v2 (el UNICO modelo que train_v2.py entrena y exporta
+desde que Lineal v2 y Gradient Boosting v2 se descartaron de esta carpeta,
+ver docs/decisiones_v2.md). Version anterior de este script validaba
+Lineal v2 y Gradient Boosting v2 -- modelos que train_v2.py ya no entrena --
+y nunca corria la prueba sobre el modelo que realmente se usa; era codigo
+que quedo desalineado tras el cambio de alcance.
 
 Logica: se reentrena el modelo cientos de veces con el target de
 ENTRENAMIENTO barajado al azar (misma X, y sin relacion real con rate).
@@ -14,34 +19,30 @@ codifica el target de forma indirecta).
 
 Uso:  python src/validacion_v2.py
 """
+import json
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from sklearn.ensemble import GradientBoostingRegressor
-from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import r2_score
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
+
+from config import SEED, TEST_YEAR
 
 ROOT = Path(__file__).resolve().parents[1]
 PANEL = ROOT / "data" / "processed" / "dataset_region_v2.csv"
-SEED = 42
+HIPERPARAMS = ROOT / "data" / "outputs" / "v2" / "hiperparametros_v2.json"
 N_PERMUTACIONES = 500
-
-FEATURES = ["rate_lag1", "pct_women_lag1", "mean_age_lag1",
-            "pct_irregular_lag1", "pct_venezuela_lag1",
-            "sol_share_lag1", "sol_pct_otorga_lag1",
-            "macro_desempleo_origen_lag1"]
-TARGET = "rate"
-TEST_YEAR = 2023
 
 
 def cargar():
+    hp = json.loads(HIPERPARAMS.read_text())
+    features = hp["features"]
+    params = hp["mejores_params"]["random_forest_v2"]
     panel = pd.read_csv(PANEL)
     train = panel[panel["ANIO"] < TEST_YEAR]
     test = panel[panel["ANIO"] == TEST_YEAR]
-    return train[FEATURES], train[TARGET], test[FEATURES], test[TARGET]
+    return (train[features], train["rate"], test[features], test["rate"], params)
 
 
 def test_permutacion(nombre, construir_modelo, X_tr, y_tr, X_te, y_te, n_perm):
@@ -75,25 +76,16 @@ def test_permutacion(nombre, construir_modelo, X_tr, y_tr, X_te, y_te, n_perm):
 
 
 def main():
-    X_tr, y_tr, X_te, y_te = cargar()
+    X_tr, y_tr, X_te, y_te, params = cargar()
     print(f"Train N={len(X_tr)} (2021-2022) | Test N={len(X_te)} (2023) | "
-          f"{N_PERMUTACIONES} permutaciones por modelo")
-
-    resultados = []
-    resultados.append(test_permutacion(
-        "regresion_lineal_v2",
-        lambda: Pipeline([("scaler", StandardScaler()), ("model", LinearRegression())]),
-        X_tr, y_tr, X_te, y_te, N_PERMUTACIONES))
+          f"{N_PERMUTACIONES} permutaciones")
 
     # Mismos hiperparametros que gano el GridSearchCV en train_v2.py
-    # (ver hiperparametros_v2.json): GradientBoostingRegressor de sklearn,
-    # NO XGBoost — son implementaciones distintas, no intercambiables.
-    resultados.append(test_permutacion(
-        "gradient_boosting_v2",
-        lambda: GradientBoostingRegressor(
-            n_estimators=200, learning_rate=0.03, max_depth=3,
-            min_samples_leaf=2, subsample=1.0, random_state=SEED),
-        X_tr, y_tr, X_te, y_te, N_PERMUTACIONES))
+    # (ver hiperparametros_v2.json).
+    resultados = [test_permutacion(
+        "random_forest_v2",
+        lambda: RandomForestRegressor(random_state=SEED, **params),
+        X_tr, y_tr, X_te, y_te, N_PERMUTACIONES)]
 
     out = pd.DataFrame(resultados)
     out.to_csv(ROOT / "data" / "outputs" / "v2" / "test_permutacion_v2.csv", index=False)
