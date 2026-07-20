@@ -16,9 +16,11 @@ Uso:  python src/validacion_v2.py
 """
 from pathlib import Path
 
+import json
+
 import numpy as np
 import pandas as pd
-from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 from sklearn.pipeline import Pipeline
@@ -88,11 +90,23 @@ def main():
     # Mismos hiperparametros que gano el GridSearchCV en train_v2.py
     # (ver hiperparametros_v2.json): GradientBoostingRegressor de sklearn,
     # NO XGBoost — son implementaciones distintas, no intercambiables.
+    # Se incluye como modelo de referencia/control (no es el modelo
+    # seleccionado por el equipo).
     resultados.append(test_permutacion(
-        "gradient_boosting_v2",
+        "gradient_boosting_v2 (referencia, no seleccionado)",
         lambda: GradientBoostingRegressor(
             n_estimators=200, learning_rate=0.03, max_depth=3,
             min_samples_leaf=2, subsample=1.0, random_state=SEED),
+        X_tr, y_tr, X_te, y_te, N_PERMUTACIONES))
+
+    # Random Forest v2: el modelo REALMENTE seleccionado por el equipo
+    # (train_v2.py). Hiperparametros ganadores del GridSearchCV real.
+    rf_params = json.loads((ROOT / "data" / "outputs" / "v2" /
+                            "hiperparametros_v2.json").read_text(
+        encoding="utf-8"))["mejores_params"]["random_forest_v2"]
+    resultados.append(test_permutacion(
+        "random_forest_v2 (modelo seleccionado)",
+        lambda: RandomForestRegressor(random_state=SEED, **rf_params),
         X_tr, y_tr, X_te, y_te, N_PERMUTACIONES))
 
     out = pd.DataFrame(resultados)
