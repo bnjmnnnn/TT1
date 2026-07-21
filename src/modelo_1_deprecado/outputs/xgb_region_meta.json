@@ -1,0 +1,29 @@
+{
+  "date": "2026-07-20",
+  "dataset": "region",
+  "features": [
+    "rate_lag1",
+    "pct_women_lag1",
+    "mean_age_lag1",
+    "pct_irregular_lag1",
+    "pct_venezuela_lag1"
+  ],
+  "target": "rate",
+  "test_year": 2023,
+  "hyperparams": {
+    "learning_rate": 0.03,
+    "max_depth": 3,
+    "min_child_weight": 1,
+    "n_estimators": 500
+  },
+  "test_metrics": {
+    "RMSE": 0.12437367736536274,
+    "MAE": 0.034622990119515855,
+    "R2": 0.22080463851920074
+  },
+  "seed": 42,
+  "versions": {
+    "xgboost": "3.3.0",
+    "scikit-learn": "1.7.2"
+  }
+}

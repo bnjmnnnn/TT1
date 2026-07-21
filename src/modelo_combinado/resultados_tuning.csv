@@ -1,0 +1,3 @@
+version,f1_test,auc_test
+xgboost_mejorado (hiperparam. fijos),0.5833333333333334,0.8883568404193704
+xgboost_tuneado (RandomizedSearchCV + early stopping),0.6302521008403361,0.8951680019791036

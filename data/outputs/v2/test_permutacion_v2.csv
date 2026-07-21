@@ -1,4 +1,0 @@
-modelo,r2_real,r2_permutado_media,r2_permutado_std,p_valor
-regresion_lineal_v2,0.9998816333699114,-1.0909541414202426,1.1878824021451553,0.0
-"gradient_boosting_v2 (referencia, no seleccionado)",0.9995471705763861,-1.0820630302033942,1.82700129132765,0.0
-random_forest_v2 (modelo seleccionado),0.8638649878537128,-0.4072924138514606,0.6270264522072807,0.0
