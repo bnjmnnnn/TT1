@@ -2,10 +2,6 @@
 
   1. PAIS_CODIGO y CODREGEO -> one-hot para la logistica (nominales).
   2. Desbalance 91/9 -> class_weight='balanced' / scale_pos_weight.
-  3. Umbral calibrado en validacion (nunca en test).
-  4. CV estratificada k=5 (media +- desviacion).
-
-Uso:  python modelos_mejorados.py  ->  resultados_mejorados.csv
 """
 from pathlib import Path
 

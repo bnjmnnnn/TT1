@@ -3,10 +3,11 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parents[1]
+AQUI = Path(__file__).resolve().parent
+ROOT = AQUI.parents[1]
 CENSO = ROOT / "CensoData.csv"
 COMBINADO = ROOT / "dataset_combinado.csv"
-SALIDA = Path(__file__).resolve().parent / "dataset_combinado_enriquecido.csv"
+SALIDA = AQUI / "dataset_combinado_enriquecido.csv"
 
 # Codigo de region INE (censo) -> CODREGEO (dataset_combinado, orden geografico)
 REGION_INE_A_CODREGEO = {

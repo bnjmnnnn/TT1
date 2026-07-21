@@ -7,13 +7,14 @@ modelo_combinado/) -- nota: esto se aparta del anteproyecto aprobado, que
 compromete comparar los 3 algoritmos (Lineal, RF, GB) para el objetivo
 especifico 2; declarar el motivo si se pregunta.
 
-No toca ningun artefacto del modelo 1 (data/outputs/metricas.csv se lee tal
-cual y se copia a la tabla comparativa).
+No toca ningun artefacto del modelo 1 (../modelo_1_baseline/outputs/metricas.csv
+se lee tal cual y se copia a la tabla comparativa).
 
-Salidas en data/outputs/v2/:
+Salidas en outputs/:
   metricas_v2.csv, comparacion_modelos.csv, predicciones_test_v2.csv,
   random_forest_v2.pkl
 """
+import sys
 from pathlib import Path
 import json
 
@@ -24,12 +25,14 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import GridSearchCV, KFold
 
-from config import SEED, TEST_YEAR
+AQUI = Path(__file__).resolve().parent
+ROOT = AQUI.parents[1]
+sys.path.insert(0, str(ROOT / "src" / "common"))
+from config import SEED, TEST_YEAR  # noqa: E402
 
-ROOT = Path(__file__).resolve().parents[1]
-PANEL_V2 = ROOT / "data" / "processed" / "dataset_region_v2.csv"
-METRICAS_M1 = ROOT / "data" / "outputs" / "metricas.csv"
-OUT_DIR = ROOT / "data" / "outputs" / "v2"
+PANEL_V2 = AQUI / "outputs" / "dataset_region_v2.csv"
+METRICAS_M1 = ROOT / "src" / "modelo_1_baseline" / "outputs" / "metricas.csv"
+OUT_DIR = AQUI / "outputs"
 
 TARGET = "rate"
 # Set del modelo 1 (comparabilidad) + las 3 fuentes nuevas, todo rezagado a t-1.

@@ -1,10 +1,10 @@
-"""Construye data/processed/dataset_region.csv (Fase 2 de desarrollo_modelo.md).
+"""Construye outputs/dataset_region.csv (Fase 2 de desarrollo_modelo.md).
 
 Una fila por region-anio con la variable objetivo (rate) y las features
 candidatas rezagadas. Incluye los checks de calidad del checklist Fase 2:
 se ejecutan siempre y el script falla si alguno no se cumple.
 
-Uso:  python src/build_datasets.py
+Uso:  python src/modelo_1_baseline/build_datasets.py
 """
 import sys
 
@@ -48,7 +48,7 @@ def build_region_dataset():
 
     run_quality_checks(panel, dataset, n_lost)
 
-    config.PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
+    config.OUTPUTS_DIR.mkdir(parents=True, exist_ok=True)
     dataset.to_csv(config.DATASET_REGION, index=False)
     print(f"\nOK -> {config.DATASET_REGION}")
     print(f"Dimensiones: {dataset.shape[0]} filas x {dataset.shape[1]} columnas")

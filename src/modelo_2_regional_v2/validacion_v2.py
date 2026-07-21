@@ -17,9 +17,10 @@ con targets barajados debe rondar 0 o ser negativo — el modelo no puede
 hay fuga de informacion en el pipeline (por ejemplo, alguna feature que
 codifica el target de forma indirecta).
 
-Uso:  python src/validacion_v2.py
+Uso:  python src/modelo_2_regional_v2/validacion_v2.py
 """
 import json
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -27,11 +28,13 @@ import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import r2_score
 
-from config import SEED, TEST_YEAR
+AQUI = Path(__file__).resolve().parent
+ROOT = AQUI.parents[1]
+sys.path.insert(0, str(ROOT / "src" / "common"))
+from config import SEED, TEST_YEAR  # noqa: E402
 
-ROOT = Path(__file__).resolve().parents[1]
-PANEL = ROOT / "data" / "processed" / "dataset_region_v2.csv"
-HIPERPARAMS = ROOT / "data" / "outputs" / "v2" / "hiperparametros_v2.json"
+PANEL = AQUI / "outputs" / "dataset_region_v2.csv"
+HIPERPARAMS = AQUI / "outputs" / "hiperparametros_v2.json"
 N_PERMUTACIONES = 500
 
 
@@ -88,8 +91,8 @@ def main():
         X_tr, y_tr, X_te, y_te, N_PERMUTACIONES)]
 
     out = pd.DataFrame(resultados)
-    out.to_csv(ROOT / "data" / "outputs" / "v2" / "test_permutacion_v2.csv", index=False)
-    print(f"\n-> {ROOT / 'data' / 'outputs' / 'v2' / 'test_permutacion_v2.csv'}")
+    out.to_csv(AQUI / "outputs" / "test_permutacion_v2.csv", index=False)
+    print(f"\n-> {AQUI / 'outputs' / 'test_permutacion_v2.csv'}")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,3 @@
-"""Limpieza de dataset_combinado (codificacion a numerico + coercion),
-misma estructura que la limpieza historica del equipo para este dataset.
-"""
 import pandas as pd
 
 EDAD_MAP = {

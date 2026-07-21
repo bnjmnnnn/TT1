@@ -1,27 +1,23 @@
 """Dataset v2: panel region-anio con las 3 fuentes del documento de TT1.
 
-  1. SERMIG estimaciones  -> data/processed/dataset_region.csv (NO se regenera:
-     es el insumo del modelo 1 y se lee tal cual para mantener comparabilidad)
+  1. SERMIG estimaciones  -> ../modelo_1_baseline/outputs/dataset_region.csv
+     (NO se regenera: es el insumo del modelo 1 y se lee tal cual para
+     mantener comparabilidad)
   2. SERMIG solicitudes   -> RD-Resueltas-2o-semestre-2025.xlsx (2000-2025)
-  3. Censo 2024           -> data/processed/censo_features_region.csv
-
-Produce data/processed/dataset_region_v2.csv: mismas 48 filas y target `rate`
-del modelo 1 + features nuevas, todas rezagadas a t-1 (misma regla anti-leakage).
-Las features censales son la foto 2024 (estaticas): quedan como candidatas
-marcadas censo_* y NO entran al set por defecto (el censo se levanto despues
-del anio de test 2023; ver docs).
+  3. Censo 2024           -> outputs/censo_features_region.csv
 """
 from pathlib import Path
 import pandas as pd
 
 from homologacion_v2 import region_a_codregeo
 
-ROOT = Path(__file__).resolve().parents[1]
-PANEL_M1 = ROOT / "data" / "processed" / "dataset_region.csv"
+AQUI = Path(__file__).resolve().parent
+ROOT = AQUI.parents[1]
+PANEL_M1 = ROOT / "src" / "modelo_1_baseline" / "outputs" / "dataset_region.csv"
 SOLICITUDES = ROOT / "RD-Resueltas-2o-semestre-2025.xlsx"
 COMBINADO = ROOT / "dataset_combinado.csv"
-CENSO_FEATS = ROOT / "data" / "processed" / "censo_features_region.csv"
-OUT = ROOT / "data" / "processed" / "dataset_region_v2.csv"
+CENSO_FEATS = AQUI / "outputs" / "censo_features_region.csv"
+OUT = AQUI / "outputs" / "dataset_region_v2.csv"
 
 
 def features_solicitudes() -> pd.DataFrame:

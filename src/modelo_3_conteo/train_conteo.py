@@ -6,18 +6,8 @@ Cambia el target de `rate` (participacion sobre el stock nacional) a
 composicion/administrativas rezagadas del panel v2, cambiando `rate_lag1`
 por `estimation_lag1` como predictor autorregresivo (equivalente conceptual,
 pero en la escala de cantidad, no de proporcion).
-
-`estimation_lag1` no esta en dataset_region_v2.csv (ese panel solo trae el
-share rezagado) asi que se reconstruye agregando ESTIMACION por region-anio
-desde dataset_combinado.csv (que cubre 2018-2023, alcanza para el rezago del
-panel 2021-2023 sin perder filas).
-
-Mismo protocolo temporal y misma regla anti-leakage que v2: train 2021-2022
-(N=32), test 2023 (N=16), split NUNCA aleatorio.
-
-Salidas en data/outputs/conteo/:
-  metricas_conteo.csv, predicciones_test_conteo.csv, <modelo>_conteo.pkl
 """
+import sys
 from pathlib import Path
 import json
 
@@ -31,12 +21,14 @@ from sklearn.model_selection import GridSearchCV, KFold
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
-from config import SEED, TEST_YEAR
+AQUI = Path(__file__).resolve().parent
+ROOT = AQUI.parents[1]
+sys.path.insert(0, str(ROOT / "src" / "common"))
+from config import SEED, TEST_YEAR  # noqa: E402
 
-ROOT = Path(__file__).resolve().parents[1]
-PANEL_V2 = ROOT / "data" / "processed" / "dataset_region_v2.csv"
+PANEL_V2 = ROOT / "src" / "modelo_2_regional_v2" / "outputs" / "dataset_region_v2.csv"
 COMBINADO = ROOT / "dataset_combinado.csv"
-OUT_DIR = ROOT / "data" / "outputs" / "conteo"
+OUT_DIR = AQUI / "outputs"
 
 TARGET = "estimation"
 FEATURES = [

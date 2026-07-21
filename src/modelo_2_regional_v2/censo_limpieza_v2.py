@@ -6,23 +6,18 @@ reorganizacion de archivos; se adapto esta lectura a los codigos INE con los
 mismos mapeos usados en modelo_combinado/features_censo.py, verificando que
 las cifras agregadas por region sean equivalentes a las documentadas.
 
-Produce:
-  data/processed/censo_features_region.csv -> features censales agregadas por region
-
-Politica de missing (ausencia estructural, marcador -99 del cuestionario):
-  se excluye de cada porcentaje puntual (no se imputa con media/moda, sesgaria
-  la composicion), igual que la version anterior basada en 'Sin dato'.
 """
 import sys
 from pathlib import Path
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "modelo_combinado"))
+AQUI = Path(__file__).resolve().parent
+ROOT = AQUI.parents[1]
+sys.path.insert(0, str(ROOT / "src" / "modelo_combinado"))
 from features_censo import REGION_INE_A_CODREGEO, PAIS_INE  # noqa: E402
 
 SOURCE = ROOT / "CensoData.csv"
-OUT_FEATURES = ROOT / "data" / "processed" / "censo_features_region.csv"
+OUT_FEATURES = AQUI / "outputs" / "censo_features_region.csv"
 EDAD_MAX_VALIDA = 110
 
 

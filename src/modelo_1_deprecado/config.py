@@ -1,24 +1,30 @@
-"""Configuracion unica del proyecto (Fase 0 de desarrollo_modelo.md).
+"""Configuracion del modelo 1 (baseline): rutas, features y target.
 
-Toda constante compartida entre notebooks y scripts vive aqui.
+Constantes de uso exclusivo de este modelo. SEED y TEST_YEAR se repiten
+literalmente aqui (mismos valores que src/common/config.py, que usan
+modelo_2_regional_v2 y modelo_3_conteo) para evitar un import cruzado
+entre carpetas solo por dos constantes.
 """
 from pathlib import Path
 
-# --- Rutas (siempre relativas a la raiz del repo) ---
-ROOT = Path(__file__).resolve().parents[1]
-RAW_SERMIG = ROOT / "8. baseregiones_limpio.csv"
-PROCESSED_DIR = ROOT / "data" / "processed"
-OUTPUTS_DIR = ROOT / "data" / "outputs"
-DATASET_REGION = PROCESSED_DIR / "dataset_region.csv"
-
-# --- Reproducibilidad ---
 SEED = 42
+TEST_YEAR = 2023
+
+AQUI = Path(__file__).resolve().parent
+ROOT = AQUI.parents[1]
+OUTPUTS_DIR = AQUI / "outputs"
+DATASET_REGION = OUTPUTS_DIR / "dataset_region.csv"
+
+# Fuente cruda -- NOTA: este archivo ya no existe en el repo (se perdio en
+# una reorganizacion anterior a esta rama). build_datasets.py no se puede
+# regenerar desde cero hoy; DATASET_REGION (su output ya calculado) sigue
+# disponible y es lo que usa train.py y lo que lee modelo_2_regional_v2.
+RAW_SERMIG = ROOT / "8. baseregiones_limpio.csv"
 
 # --- Protocolo temporal (Fase 4.1) ---
-# Filtro del profesor: solo anios >= 2020. El anio 2020 se usa unicamente
-# como fuente del rezago (lag), por lo que el panel modelable es 2021-2023.
+# El anio 2020 se usa unicamente como fuente del rezago (lag), por lo que
+# el panel modelable es 2021-2023.
 PANEL_START = 2020
-TEST_YEAR = 2023  # hold-out temporal: ultimo anio disponible
 
 # Region 17 = "REGION IGNORADA": no es una unidad territorial predecible
 # (su share fluctua entre 3.5% y 13% del stock). Se excluye y la tasa se

@@ -8,7 +8,7 @@ Protocolo, identico para cualquier dataset del proyecto:
   5. Prueba anti-leakage del target permutado (Fase 5.8).
   6. Exportacion de modelos + metadatos y verificacion de recarga.
 
-Uso:  python src/train.py
+Uso:  python src/modelo_1_baseline/train.py
 """
 import json
 from datetime import date

@@ -10,9 +10,9 @@ Anios de ajuste: 2020-2023 (4 puntos por region). El total nacional no se
 modela aparte: emerge de sumar las 16 proyecciones regionales, asi que no
 puede haber inconsistencia entre el total y la suma de las partes.
 
-Uso:  python proyeccion_regional_combinado.py
-      -> data/outputs/tendencia_r2_por_region_combinado.csv
-      -> data/outputs/proyeccion_regional_combinado_2024_2028.csv
+Uso:  python src/proyeccion_regional/proyeccion_regional_combinado.py
+      -> outputs/tendencia_r2_por_region_combinado.csv
+      -> outputs/proyeccion_regional_combinado_2024_2028.csv
 """
 import sys
 from pathlib import Path
@@ -22,12 +22,13 @@ import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "modelo_combinado"))
+AQUI = Path(__file__).resolve().parent
+ROOT = AQUI.parents[1]
+sys.path.insert(0, str(ROOT / "src" / "modelo_combinado"))
 from limpiar_datos import limpiar_datos  # noqa: E402
 
 COMBINADO = ROOT / "dataset_combinado.csv"
-OUT_DIR = ROOT / "data" / "outputs"
+OUT_DIR = AQUI / "outputs"
 ANIOS_AJUSTE = range(2020, 2024)  # 2020-2023
 ANIOS_PROYECCION = range(2024, 2029)  # 2024-2028
 REGION_IGNORADA = 17
