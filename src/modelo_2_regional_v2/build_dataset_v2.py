@@ -1,6 +1,6 @@
 """Dataset v2: panel region-anio con las 3 fuentes del documento de TT1.
 
-  1. SERMIG estimaciones  -> ../modelo_1_baseline/outputs/dataset_region.csv
+  1. SERMIG estimaciones  -> ../modelo_1_deprecado/outputs/dataset_region.csv
      (NO se regenera: es el insumo del modelo 1 y se lee tal cual para
      mantener comparabilidad)
   2. SERMIG solicitudes   -> RD-Resueltas-2o-semestre-2025.xlsx (2000-2025)
@@ -13,7 +13,7 @@ from homologacion_v2 import region_a_codregeo
 
 AQUI = Path(__file__).resolve().parent
 ROOT = AQUI.parents[1]
-PANEL_M1 = ROOT / "src" / "modelo_1_baseline" / "outputs" / "dataset_region.csv"
+PANEL_M1 = ROOT / "src" / "modelo_1_deprecado" / "outputs" / "dataset_region.csv"
 SOLICITUDES = ROOT / "RD-Resueltas-2o-semestre-2025.xlsx"
 COMBINADO = ROOT / "dataset_combinado.csv"
 CENSO_FEATS = AQUI / "outputs" / "censo_features_region.csv"
@@ -92,8 +92,12 @@ def construir() -> pd.DataFrame:
 
     # --- Checks (el script falla si no se cumplen) ---
     assert len(panel) == n0 == 48, "El merge altero el numero de filas del panel"
-    assert panel.shape[1] > cols0
     nuevas = [c for c in panel.columns if c.startswith(("sol_", "macro_", "censo_"))]
+    # Las 3 fuentes nuevas deben haber aportado columnas: solicitudes, macro y censo
+    for prefijo in ("sol_", "macro_", "censo_"):
+        assert any(c.startswith(prefijo) for c in nuevas), \
+            f"El merge no aporto ninguna columna {prefijo}*"
+    assert panel.shape[1] == cols0 + len(nuevas), "Columnas inesperadas tras el merge"
     nulos = panel[nuevas].isna().sum()
     assert (nulos == 0).all(), f"Features nuevas con nulos:\n{nulos[nulos > 0]}"
     # El panel del modelo 1 debe quedar identico en sus columnas originales

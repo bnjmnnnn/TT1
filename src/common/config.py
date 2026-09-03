@@ -1,7 +1,7 @@
 """Constantes compartidas por MAS de un modelo (SEED, TEST_YEAR).
 
 Todo lo demas (rutas de datos, features, target) es especifico de cada
-modelo y vive en su propia carpeta (ver modelo_1_baseline/config.py para
+modelo y vive en su propia carpeta (ver modelo_1_deprecado/config.py para
 las constantes que eran de uso exclusivo del modelo 1).
 """
 

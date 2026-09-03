@@ -11,6 +11,3 @@ venv/
 
 # Jupyter
 .ipynb_checkpoints/
-
-# Documentacion (no se mergea a main por ahora)
-*.md
