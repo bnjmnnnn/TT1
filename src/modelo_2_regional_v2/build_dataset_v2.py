@@ -14,8 +14,8 @@ from homologacion_v2 import region_a_codregeo
 AQUI = Path(__file__).resolve().parent
 ROOT = AQUI.parents[1]
 PANEL_M1 = ROOT / "src" / "modelo_1_deprecado" / "outputs" / "dataset_region.csv"
-SOLICITUDES = ROOT / "RD-Resueltas-2o-semestre-2025.xlsx"
-COMBINADO = ROOT / "dataset_combinado.csv"
+SOLICITUDES = ROOT / "data" / "raw" / "RD-Resueltas-2o-semestre-2025.xlsx"
+COMBINADO = ROOT / "data" / "raw" / "dataset_combinado.csv"
 CENSO_FEATS = AQUI / "outputs" / "censo_features_region.csv"
 OUT = AQUI / "outputs" / "dataset_region_v2.csv"
 
