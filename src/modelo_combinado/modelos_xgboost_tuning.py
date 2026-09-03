@@ -28,6 +28,7 @@ from modelos_basicos import FEATURES_BASE, FEATURES_CENSO, preparar, split_tempo
 from modelos_mejorados import umbral_optimo
 
 AQUI = Path(__file__).resolve().parent
+OUT_DIR = AQUI / "outputs"
 SEED = 42
 N_ESTIMATORS_MAX = 2000
 EARLY_STOPPING_ROUNDS = 30
@@ -104,7 +105,7 @@ def main():
           f"AUC-ROC={resultado['auc_roc_test']:.4f}  "
           f"AUC-PR={resultado['auc_pr_test']:.4f}")
 
-    previo = pd.read_csv(AQUI / "resultados_mejorados.csv").query(
+    previo = pd.read_csv(OUT_DIR / "resultados_mejorados.csv").query(
         "modelo == 'xgboost' and features == 'base + censo'").iloc[0]
     comp = pd.DataFrame([
         {"version": "xgboost_mejorado (hiperparam. fijos)",
@@ -112,12 +113,12 @@ def main():
         {"version": "xgboost_tuneado (RandomizedSearchCV + early stopping)",
          "f1_test": resultado["f1_test"], "auc_test": resultado["auc_roc_test"]},
     ])
-    comp.to_csv(AQUI / "resultados_tuning.csv", index=False)
+    comp.to_csv(OUT_DIR / "resultados_tuning.csv", index=False)
     print("\n== Comparacion ==")
     print(comp.to_string(index=False))
 
     # Persistir hiperparametros y umbral (antes solo quedaban en consola)
-    (AQUI / "hiperparametros_tuning.json").write_text(json.dumps(
+    (OUT_DIR / "hiperparametros_tuning.json").write_text(json.dumps(
         {"mejores_params": {k: float(v) if not isinstance(v, int) else v
                             for k, v in mejores_params.items()},
          "n_arboles_early_stopping": int(modelo.best_iteration),
@@ -136,13 +137,13 @@ def main():
     ax.legend()
     ax.grid(alpha=0.3)
     plt.tight_layout()
-    plt.savefig(AQUI / "curva_pr.png", dpi=120)
+    plt.savefig(OUT_DIR / "curva_pr.png", dpi=120)
 
-    modelo.save_model(AQUI / "xgb_tuneado.json")
-    print(f"\n-> {AQUI / 'resultados_tuning.csv'}")
-    print(f"-> {AQUI / 'hiperparametros_tuning.json'}")
-    print(f"-> {AQUI / 'curva_pr.png'}")
-    print(f"-> {AQUI / 'xgb_tuneado.json'}")
+    modelo.save_model(OUT_DIR / "xgb_tuneado.json")
+    print(f"\n-> {OUT_DIR / 'resultados_tuning.csv'}")
+    print(f"-> {OUT_DIR / 'hiperparametros_tuning.json'}")
+    print(f"-> {OUT_DIR / 'curva_pr.png'}")
+    print(f"-> {OUT_DIR / 'xgb_tuneado.json'}")
 
 
 if __name__ == "__main__":

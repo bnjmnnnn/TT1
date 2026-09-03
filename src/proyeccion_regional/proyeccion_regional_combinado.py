@@ -2,7 +2,7 @@
 
 Metodo: tendencia log-lineal de ESTIMACION por region (regresion univariada
 log(ESTIMACION) ~ ANIO, una por region), NO un modelo multivariado con un
-R2 agregado. Motivo documentado en docs/fuentes_proyeccion_regional_combinado.md:
+R2 agregado. Motivo documentado en el informe final de TT I, seccion 6.6:
 evitar un R2 dificil de defender y, de paso, no depender del censo (que solo
 aporta reparto provincial, no region).
 
@@ -27,7 +27,7 @@ ROOT = AQUI.parents[1]
 sys.path.insert(0, str(ROOT / "src" / "modelo_combinado"))
 from limpiar_datos import limpiar_datos  # noqa: E402
 
-COMBINADO = ROOT / "dataset_combinado.csv"
+COMBINADO = ROOT / "data" / "raw" / "dataset_combinado.csv"
 OUT_DIR = AQUI / "outputs"
 ANIOS_AJUSTE = range(2020, 2024)  # 2020-2023
 ANIOS_PROYECCION = range(2024, 2029)  # 2024-2028

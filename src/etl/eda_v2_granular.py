@@ -10,7 +10,7 @@ warnings.filterwarnings('ignore')
 plt.rcParams['figure.figsize'] = (12, 6)
 sns.set_style("whitegrid")
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[2]  # src/etl/ -> raiz del repo
 OUTDIR = ROOT / "EDA_output_v2"
 os.makedirs(OUTDIR, exist_ok=True)
 
@@ -23,14 +23,14 @@ print("="*60)
 # ============================================================================
 print("\n[1] CARGA DE DATOS...")
 
-df = pd.read_csv(ROOT / "dataset_combinado.csv")
+df = pd.read_csv(ROOT / "data" / "raw" / "dataset_combinado.csv")
 print(f"dataset_combinado.csv: {df.shape}")
 
-acogidas = pd.read_excel(ROOT / "RD-Acogidas-2o-semestre-2025.xlsx")
+acogidas = pd.read_excel(ROOT / "data" / "raw" / "RD-Acogidas-2o-semestre-2025.xlsx")
 acogidas.columns = [c.strip() for c in acogidas.columns]
 print(f"RD-Acogidas: {acogidas.shape}")
 
-resueltas = pd.read_excel(ROOT / "RD-Resueltas-2o-semestre-2025.xlsx")
+resueltas = pd.read_excel(ROOT / "data" / "raw" / "RD-Resueltas-2o-semestre-2025.xlsx")
 resueltas.columns = [c.strip() for c in resueltas.columns]
 print(f"RD-Resueltas: {resueltas.shape}")
 

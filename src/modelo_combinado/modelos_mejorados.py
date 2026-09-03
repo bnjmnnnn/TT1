@@ -18,6 +18,7 @@ from xgboost import XGBClassifier
 from modelos_basicos import FEATURES_BASE, FEATURES_CENSO, preparar, split_temporal
 
 AQUI = Path(__file__).resolve().parent
+OUT_DIR = AQUI / "outputs"
 SEED = 42
 CATEGORICAS = ["PAIS_CODIGO", "CODREGEO"]
 
@@ -98,8 +99,8 @@ def main():
                   f"test f1={r['f1_test']:.3f} auc={r['auc_test']:.3f} thr={thr:.2f}")
 
     res = pd.DataFrame(resultados)
-    res.to_csv(AQUI / "resultados_mejorados.csv", index=False)
-    print(f"\n-> {AQUI / 'resultados_mejorados.csv'}")
+    res.to_csv(OUT_DIR / "resultados_mejorados.csv", index=False)
+    print(f"\n-> {OUT_DIR / 'resultados_mejorados.csv'}")
 
 
 if __name__ == "__main__":

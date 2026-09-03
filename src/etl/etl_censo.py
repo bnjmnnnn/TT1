@@ -5,9 +5,11 @@ from datetime import datetime
 
 # Configuracion: rutas relativas a la raiz del repositorio, para que el
 # script corra en cualquier computador sin editarlo.
-ROOT = os.path.dirname(os.path.abspath(__file__))
-SOURCE_FILE = os.path.join(ROOT, 'personas_censo2024.csv')
-TARGET_FILE = os.path.join(ROOT, 'CensoData.csv')
+# src/etl/ -> raiz del repositorio (dos niveles arriba)
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+RAW = os.path.join(ROOT, 'data', 'raw')
+SOURCE_FILE = os.path.join(RAW, 'personas_censo2024.csv')
+TARGET_FILE = os.path.join(RAW, 'CensoData.csv')
 
 # Columnas que se mantienen directamente del source (mapeo 1:1)
 DIRECT_COLUMNS = [
