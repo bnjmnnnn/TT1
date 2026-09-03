@@ -112,8 +112,18 @@ Semilla fija en 42: dos ejecuciones consecutivas producen métricas idénticas.
 
 ## Estructura
 
+```
+TT1/
+├── data/raw/       fuentes originales, nunca se modifican
+└── src/
+    ├── common/     constantes compartidas (SEED, TEST_YEAR)
+    ├── etl/        limpieza y exploracion de las fuentes
+    └── modelo_*/   un modelo por carpeta, cada uno con su outputs/
+```
+
 | Carpeta | Contenido | ¿En el informe? |
 |---|---|---|
+| `src/etl/` | Limpieza del censo y del SERMIG, EDA | — |
 | `src/common/` | Constantes compartidas (SEED, TEST_YEAR) | — |
 | `src/modelo_1_deprecado/` | Lineal + XGBoost, 5 variables. Genera `dataset_region.csv`, insumo de todo lo demás | Sí, como referencia |
 | `src/modelo_2_regional_v2/` | **Modelo final**: Random Forest, 8 variables, 3 fuentes | Sí, secciones 5 y 6 |
@@ -121,20 +131,27 @@ Semilla fija en 42: dos ejecuciones consecutivas producen métricas idénticas.
 | `src/modelo_combinado/` | Clasificador de irregularidad migratoria | **No** — exploratorio |
 | `src/proyeccion_regional/` | Tendencia log-lineal por región, 2024-2028 | Sí, sección 6.6 |
 
+Cada carpeta de modelo guarda sus resultados en su propio `outputs/`, de modo
+que siempre se sabe qué script produjo qué archivo.
+
 > El nombre `modelo_1_deprecado` induce a error: esa carpeta **no está
 > deprecada**. Su salida `dataset_region.csv` es el punto de partida del modelo
 > final. Se mantiene el nombre para no romper el historial.
 
 ## Datos
 
+Las fuentes originales viven en `data/raw/` y no se modifican nunca: toda
+transformación pasa por código.
+
 | Archivo | Fuente | Uso |
 |---|---|---|
 | `dataset_combinado.csv` | SERMIG + macro | Estimaciones 2018-2023 e indicadores del país de origen |
 | `CensoData.csv` | Censo 2024 (INE) | Variables complementarias, sólo modelo exploratorio |
 | `RD-Resueltas-2o-semestre-2025.xlsx` | SERMIG | Solicitudes de residencia resueltas |
+| `RD-Acogidas-2o-semestre-2025.xlsx` | SERMIG | Solicitudes acogidas a tramitación, usado en el EDA |
 
 `personas_censo2024.csv` (microdatos censales completos) no se versiona por
-peso; `etl_censo.py` lo transforma en `CensoData.csv`.
+peso; `src/etl/etl_censo.py` lo transforma en `CensoData.csv`.
 
 **Archivo faltante:** `8. baseregiones_limpio.csv`, fuente cruda de
 `src/modelo_1_deprecado/build_datasets.py`, se perdió en una reorganización
