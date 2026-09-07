@@ -2,7 +2,6 @@
 
 **Trabajo de Título · Universidad Tecnológica Metropolitana**
 Bastián Pizarro Pacheco · Benjamín Fernández Toledo
-Profesor guía: Mauro Castillo Valdés · Co-guía: Héctor Cifuentes Mella
 
 ---
 
