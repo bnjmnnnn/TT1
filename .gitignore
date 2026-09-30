@@ -14,3 +14,4 @@ venv/
 
 # Documentacion (no se mergea a main por ahora)
 *.md
+docs/
