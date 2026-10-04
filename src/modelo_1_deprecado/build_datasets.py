@@ -4,7 +4,7 @@ Una fila por region-anio con la variable objetivo (rate) y las features
 candidatas rezagadas. Incluye los checks de calidad del checklist Fase 2:
 se ejecutan siempre y el script falla si alguno no se cumple.
 
-Uso:  python src/modelo_1_baseline/build_datasets.py
+Uso:  python src/modelo_1_deprecado/build_datasets.py
 """
 import sys
 

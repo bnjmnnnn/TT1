@@ -20,6 +20,7 @@ from sklearn.preprocessing import StandardScaler
 from limpiar_datos import limpiar_datos
 
 AQUI = Path(__file__).resolve().parent
+OUT_DIR = AQUI / "outputs"
 SEED = 42
 TEST_YEAR = 2023  # holdout temporal, mismo protocolo que src/train_v2.py
 
@@ -42,7 +43,7 @@ MODELOS = {
 
 
 def preparar():
-    df = pd.read_csv(AQUI / "dataset_combinado_enriquecido.csv")
+    df = pd.read_csv(OUT_DIR / "dataset_combinado_enriquecido.csv")
     limpiar_datos(df)
 
     n0 = len(df)
@@ -96,8 +97,8 @@ def main():
                   f"f1={resultados[-1]['f1']:.4f} auc={resultados[-1]['auc']:.4f}")
 
     res = pd.DataFrame(resultados)
-    res.to_csv(AQUI / "resultados_modelos.csv", index=False)
-    print(f"\n-> {AQUI / 'resultados_modelos.csv'}")
+    res.to_csv(OUT_DIR / "resultados_modelos.csv", index=False)
+    print(f"\n-> {OUT_DIR / 'resultados_modelos.csv'}")
 
 
 if __name__ == "__main__":

@@ -7,7 +7,7 @@ modelo_combinado/) -- nota: esto se aparta del anteproyecto aprobado, que
 compromete comparar los 3 algoritmos (Lineal, RF, GB) para el objetivo
 especifico 2; declarar el motivo si se pregunta.
 
-No toca ningun artefacto del modelo 1 (../modelo_1_baseline/outputs/metricas.csv
+No toca ningun artefacto del modelo 1 (../modelo_1_deprecado/outputs/metricas.csv
 se lee tal cual y se copia a la tabla comparativa).
 
 Salidas en outputs/:
@@ -31,7 +31,7 @@ sys.path.insert(0, str(ROOT / "src" / "common"))
 from config import SEED, TEST_YEAR  # noqa: E402
 
 PANEL_V2 = AQUI / "outputs" / "dataset_region_v2.csv"
-METRICAS_M1 = ROOT / "src" / "modelo_1_baseline" / "outputs" / "metricas.csv"
+METRICAS_M1 = ROOT / "src" / "modelo_1_deprecado" / "outputs" / "metricas.csv"
 OUT_DIR = AQUI / "outputs"
 
 TARGET = "rate"

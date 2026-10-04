@@ -3,12 +3,13 @@ import sys
 import os
 from datetime import datetime
 
-# Configuración
-SOURCE_FILE = r'C:\Users\benja\OneDrive\Escritorio\TT1\personas_censo2024.csv'
-TARGET_FILE = r'C:\Users\benja\OneDrive\Escritorio\TT1\CensoData.csv'
-# Alternativamente, puedes usar paths relativos:
-# SOURCE_FILE = 'personas_censo2024.csv'
-# TARGET_FILE = 'CensoData.csv'
+# Configuracion: rutas relativas a la raiz del repositorio, para que el
+# script corra en cualquier computador sin editarlo.
+# src/etl/ -> raiz del repositorio (dos niveles arriba)
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+RAW = os.path.join(ROOT, 'data', 'raw')
+SOURCE_FILE = os.path.join(RAW, 'personas_censo2024.csv')
+TARGET_FILE = os.path.join(RAW, 'CensoData.csv')
 
 # Columnas que se mantienen directamente del source (mapeo 1:1)
 DIRECT_COLUMNS = [

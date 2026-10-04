@@ -27,7 +27,7 @@ sys.path.insert(0, str(ROOT / "src" / "common"))
 from config import SEED, TEST_YEAR  # noqa: E402
 
 PANEL_V2 = ROOT / "src" / "modelo_2_regional_v2" / "outputs" / "dataset_region_v2.csv"
-COMBINADO = ROOT / "dataset_combinado.csv"
+COMBINADO = ROOT / "data" / "raw" / "dataset_combinado.csv"
 OUT_DIR = AQUI / "outputs"
 
 TARGET = "estimation"

@@ -1,10 +1,10 @@
 """Test de permutacion para el modelo nucleo v2 (train_v2.py) — la misma
 prueba que ya se le aplico al modelo 1 original (5 features, ver
-docs/decisiones_modelo_regional.md, seccion 4, hallazgo 2).
+informe final de TT I, seccion 4.4).
 
 Valida random_forest_v2 (el UNICO modelo que train_v2.py entrena y exporta
 desde que Lineal v2 y Gradient Boosting v2 se descartaron de esta carpeta,
-ver docs/decisiones_v2.md). Version anterior de este script validaba
+ver informe final de TT I, seccion 4.3). Version anterior de este script validaba
 Lineal v2 y Gradient Boosting v2 -- modelos que train_v2.py ya no entrena --
 y nunca corria la prueba sobre el modelo que realmente se usa; era codigo
 que quedo desalineado tras el cambio de alcance.

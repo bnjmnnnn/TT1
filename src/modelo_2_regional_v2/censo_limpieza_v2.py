@@ -16,7 +16,7 @@ ROOT = AQUI.parents[1]
 sys.path.insert(0, str(ROOT / "src" / "modelo_combinado"))
 from features_censo import REGION_INE_A_CODREGEO, PAIS_INE  # noqa: E402
 
-SOURCE = ROOT / "CensoData.csv"
+SOURCE = ROOT / "data" / "raw" / "CensoData.csv"
 OUT_FEATURES = AQUI / "outputs" / "censo_features_region.csv"
 EDAD_MAX_VALIDA = 110
 
