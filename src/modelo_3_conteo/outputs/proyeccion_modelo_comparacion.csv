@@ -1,0 +1,51 @@
+escenario,modelo,ANIO,total_nacional
+promedio 2021-2023,random_forest,2024,2016166
+promedio 2021-2023,random_forest,2025,2253402
+promedio 2021-2023,random_forest,2026,2523443
+promedio 2021-2023,random_forest,2027,2831267
+promedio 2021-2023,random_forest,2028,3183350
+promedio 2021-2023,regresion_lineal,2024,2026686
+promedio 2021-2023,regresion_lineal,2025,2269533
+promedio 2021-2023,regresion_lineal,2026,2537647
+promedio 2021-2023,regresion_lineal,2027,2833628
+promedio 2021-2023,regresion_lineal,2028,3160547
+promedio 2021-2023,gradient_boosting,2024,2019361
+promedio 2021-2023,gradient_boosting,2025,2260102
+promedio 2021-2023,gradient_boosting,2026,2533170
+promedio 2021-2023,gradient_boosting,2027,2843602
+promedio 2021-2023,gradient_boosting,2028,3197184
+ultimo anio (2023),random_forest,2024,2176272
+ultimo anio (2023),random_forest,2025,2620806
+ultimo anio (2023),random_forest,2026,3156304
+ultimo anio (2023),random_forest,2027,3800885
+ultimo anio (2023),random_forest,2028,4577272
+ultimo anio (2023),regresion_lineal,2024,2186738
+ultimo anio (2023),regresion_lineal,2025,2640997
+ultimo anio (2023),regresion_lineal,2026,3183517
+ultimo anio (2023),regresion_lineal,2027,3831449
+ultimo anio (2023),regresion_lineal,2028,4606451
+ultimo anio (2023),gradient_boosting,2024,2133437
+ultimo anio (2023),gradient_boosting,2025,2519704
+ultimo anio (2023),gradient_boosting,2026,2976147
+ultimo anio (2023),gradient_boosting,2027,3515960
+ultimo anio (2023),gradient_boosting,2028,4154440
+solo 2022,random_forest,2024,2025748
+solo 2022,random_forest,2025,2274095
+solo 2022,random_forest,2026,2556586
+solo 2022,random_forest,2027,2878477
+solo 2022,random_forest,2028,3246025
+solo 2022,regresion_lineal,2024,2019326
+solo 2022,regresion_lineal,2025,2253596
+solo 2022,regresion_lineal,2026,2511840
+solo 2022,regresion_lineal,2027,2796547
+solo 2022,regresion_lineal,2028,3110616
+solo 2022,gradient_boosting,2024,2044321
+solo 2022,gradient_boosting,2025,2315804
+solo 2022,gradient_boosting,2026,2626360
+solo 2022,gradient_boosting,2027,2982593
+solo 2022,gradient_boosting,2028,3391829
+tendencia (actual),log_lineal,2024,1877369
+tendencia (actual),log_lineal,2025,2003139
+tendencia (actual),log_lineal,2026,2137958
+tendencia (actual),log_lineal,2027,2282548
+tendencia (actual),log_lineal,2028,2437668

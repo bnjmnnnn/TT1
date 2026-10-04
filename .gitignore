@@ -11,4 +11,7 @@ venv/
 
 # Jupyter
 .ipynb_checkpoints/
-.vscode/
+
+# Documentacion (no se mergea a main por ahora)
+*.md
+docs/
